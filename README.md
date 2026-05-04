@@ -1,86 +1,86 @@
 # voiceguard
 
-ブラウザ / モバイルで動く **超軽量 Deepfake 音声検出モデル + 推論 SDK**。
-音声サンプル（電話 / Web 会議 / YouTube 動画）をローカルで解析し、AI 生成音声である確率を返す。
+A **tiny deepfake voice detection model + inference SDK** that runs in the browser and on mobile.
+Analyzes audio samples (phone calls, web meetings, YouTube videos) locally and returns the probability that the voice was AI-generated.
 
 ---
 
-## 🎯 Goal: Googleに買収されること
+## 🎯 Goal: Acquisition by Google
 
-このプロジェクトは「Google による Jetpac 型 acqui-hire（2〜5人 / 技術コア + UX デモ）」をエグジット目標とする。
+This project targets a **Jetpac-style acqui-hire by Google** (2–5 person team / technical core + UX demo).
 
-**買収対象は学習済みモデル + 推論 SDK（コア技術）であり、Chrome 拡張は世間への露出と PoC のための配布チャネル。**
+**The acquisition target is the trained model + inference SDK (the technical core); the Chrome extension is a distribution channel for visibility and proof-of-concept.**
 
-| 想定買収先 | 統合シナリオ |
+| Likely buyer | Integration scenario |
 |---|---|
-| **Chrome セーフブラウジング** | 不審な音声/動画コンテンツに対する警告（Google Hume AI 買収の延長線）|
-| **Google Meet** | 通話中の "Deepfake かもしれません" 警告（B2B セキュリティ機能）|
-| **YouTube** | アップロード時の "AI 生成音声含有" 自動ラベリング |
-| **Pixel / Phone by Google** | 通話相手が AI ボイスかをリアルタイム判定する詐欺対策機能 |
+| **Chrome Safe Browsing** | Warn users about suspicious audio / video content (the natural extension of the Hume AI acquisition). |
+| **Google Meet** | "This voice may be a deepfake" warnings during calls (a B2B security feature). |
+| **YouTube** | Auto-label uploads that contain AI-generated audio. |
+| **Pixel / Phone by Google** | Real-time scam protection that flags AI-cloned voices on incoming calls. |
 
-### 評価される技術の堀（moat）
-1. **モデルサイズ < 10MB**（モバイル / ブラウザで動く）
-2. **多言語対応**（日本語・英語以外でも判定できることが希少）
-3. **複数の生成器に対する汎化性**（ElevenLabs / OpenAI TTS / Suno / 未知のモデル）
-4. **誤検知率の低さ**（FPR < 1% でなければ Chrome に統合できない）
+### Technical moat we are paid for
+1. **Model size < 10 MB** (runs on mobile and in the browser)
+2. **Multilingual coverage** (detection beyond English / Japanese is rare)
+3. **Generalization across generators** (ElevenLabs / OpenAI TTS / Suno / unseen models)
+4. **Low false positive rate** (FPR < 1% is the bar to ship inside Chrome)
 
 ---
 
-## 技術スタック
+## Tech stack
 
-| レイヤー | 技術 |
+| Layer | Tech |
 |---|---|
-| 学習 | PyTorch（特徴量: メルスペクトログラム + wav2vec 派生埋め込み） |
-| データ | ASVspoof / FakeAVCeleb / 自作合成データ（OSS TTS から生成） |
-| 推論 | ONNX Runtime（Web / iOS / Android）+ WASM SIMD |
-| デモ拡張 | Chrome Manifest V3（タブ音声を WebAudio で取得 → 推論） |
-| 公開 | Hugging Face Hub にモデル公開、npm に推論 SDK 公開 |
+| Training | PyTorch (features: mel-spectrogram + wav2vec-derived embeddings) |
+| Data | ASVspoof / FakeAVCeleb / synthetic data we generate from open-source TTS |
+| Inference | ONNX Runtime (Web / iOS / Android) + WASM SIMD |
+| Demo extension | Chrome Manifest V3 (tab audio captured via WebAudio → inference) |
+| Distribution | Model on Hugging Face Hub, inference SDK on npm |
 
 ---
 
-## ディレクトリ構成
+## Repository layout
 
 ```
 voiceguard/
-├── model/                  # 学習スクリプト・データセット定義
-├── inference/              # 推論 SDK（TypeScript / Swift / Kotlin）
+├── model/                  # Training scripts and dataset definitions
+├── inference/              # Inference SDK (TypeScript / Swift / Kotlin)
 ├── examples/
-│   └── chrome-extension/   # ブラウザ向け検出デモ
-└── docs/                   # 評価レポート / 買収ピッチ
+│   └── chrome-extension/   # In-browser detection demo
+└── docs/                   # Evaluation reports / acquisition pitch material
 ```
 
 ---
 
-## 3 フェーズ計画
+## Three-phase plan
 
-### Phase 1（〜2か月）: モデル開発
-- [ ] ASVspoof2021 で AUC > 0.95 を達成
-- [ ] モデルを ONNX 化、INT8 量子化で < 10MB
-- [ ] 公開ベンチマーク（FakeAVCeleb 等）でスコア掲載
+### Phase 1 (≤ 2 months): Model development
+- [ ] Reach AUC > 0.95 on ASVspoof2021
+- [ ] Export to ONNX, INT8-quantize to < 10 MB
+- [ ] Publish scores on public benchmarks (FakeAVCeleb, etc.)
 
-### Phase 2（〜4か月）: SDK 化 + 多言語化
-- [ ] 日本語 TTS（VOICEVOX, Style-Bert-VITS2 等）への対応
-- [ ] `voiceguard-web` / `voiceguard-mobile` SDK を公開
-- [ ] Hugging Face にモデル公開（ダウンロード数で技術力を示す）
+### Phase 2 (≤ 4 months): SDK + multilingual coverage
+- [ ] Support Japanese TTS (VOICEVOX, Style-Bert-VITS2, etc.)
+- [ ] Publish the `voiceguard-web` / `voiceguard-mobile` SDKs
+- [ ] Publish the model on Hugging Face (download count signals technical credibility)
 
-### Phase 3（〜6か月）: 露出
-- [ ] Chrome 拡張公開（リアルタイム警告 UI）
-- [ ] arXiv に技術レポート
-- [ ] Google Trust & Safety / DeepMind 関係者にデモ送付
+### Phase 3 (≤ 6 months): Visibility
+- [ ] Publish the Chrome extension (real-time warning UI)
+- [ ] Submit a tech report to arXiv
+- [ ] Send demos to contacts at Google Trust & Safety / DeepMind
 
 ---
 
-## 開発コマンド
+## Development commands
 
 ```bash
-# 学習
+# Training
 cd model && python train.py --config configs/baseline.yaml
 
-# 推論 SDK
+# Inference SDK
 cd inference && npm install && npm test
 
-# 拡張のローカル起動
+# Run the extension locally
 cd examples/chrome-extension && npm run dev
 ```
 
-（実装は Phase 1 着手時に追加）
+(Implementations land when Phase 1 starts.)
