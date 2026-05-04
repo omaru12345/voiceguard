@@ -1,5 +1,9 @@
 # CLAUDE.md — voiceguard
 
+> 🚨 **MUST READ FIRST**: 作業を始める前に [`rules/README.md`](rules/README.md) を起点に `rules/` 配下の全ファイルを読むこと。
+> `rules/` の内容は本ファイルより**優先**される（矛盾した場合は rules/ が勝つ）。
+> ルールが不明確、もしくはユーザーの依頼と矛盾する場合は、実装前に必ずユーザーに確認すること。
+
 ## プロジェクト概要
 
 ブラウザ・モバイルで動く Deepfake 音声検出モデル + 推論 SDK。
@@ -35,8 +39,6 @@ refactoring-{name}-{description}
 - SDK 変更時: `npm test`
 - モデル更新時: `docs/eval-report.md` を更新
 
-## やらないこと
+## スコープ（やる / やらない）
 
-- 動画の Deepfake 検出（音声に集中。スコープ拡大は買収後）
-- 自前のクラウド推論 API 提供（オフライン性こそが価値）
-- ジェネレーター（音声合成）の実装
+[`rules/02-scope.md`](rules/02-scope.md) を正とする。CLAUDE.md には重複記載しない。
