@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+dist/
+build/
+*.log
+.DS_Store
+.env
+
+# データセット・モデルアーティファクト
+model/data/
+model/checkpoints/
+model/logs/
+*.onnx
+*.pt
+*.bin
+*.wav
+!model/data/samples/*.wav
+
+# 評価結果
+docs/eval-results/
